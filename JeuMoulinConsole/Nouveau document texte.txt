@@ -1,0 +1,461 @@
+int Inialiser(){
+    int choix;
+    printf("choisir jouer avec ordinateur:\n");
+    printf("1-minMax\n");
+    printf("2-AlphaBeta\n");
+    scanf("%d",&choix);
+    return choix;
+
+
+}
+// Fonction pour changer la couleur du texte et du fond
+void color(int couleurDuTEXTE, int couleurDeFond) {
+    HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(H, couleurDeFond * 16 + couleurDuTEXTE);
+}
+
+// Fonction pour afficher la grille avec couleur
+void co(int i,etat *e) {
+    if (e->P[i].joueur == 0) color(15, 0);
+    else if (e->P[i].joueur == 1) color(4, 4);
+    else if (e->P[i].joueur == 2) color(2, 2);
+}
+
+void afficherGrille(etat e){
+    etat ETAT;
+    copier(e,&ETAT);
+
+    printf("\n\n\n");
+    printf("\t\t\t ");
+    co(0,&ETAT);
+    printf("|00|");
+    color(15, 0);
+    printf("=======================");
+    co(1,&ETAT);
+    printf("|01|");
+    color(15, 0);
+    printf("=======================");
+    co(2,&ETAT);
+    printf("|02|\n");
+    color(15, 0);
+    printf("\t\t\t  |  \t\t\t     |  \t\t        |\n");
+    printf("\t\t\t  |\t\t\t     |  \t\t        |\n");
+    printf("\t\t\t  |\t\t\t     |  \t\t        |\n");
+    printf("\t\t\t  |         ");
+    co(3,&ETAT);
+    printf("|03|");
+    color(15, 0);
+    printf("============");
+    co(4,&ETAT);
+    printf("|04|");
+    color(15, 0);
+    printf("============");
+    co(5,&ETAT);
+    printf("|05|");
+    color(15, 0);
+    printf("        |\n");
+    printf("\t\t\t  |          |               |               |          |\n");
+    printf("\t\t\t  |          |               |               |          |\n");
+    printf("\t\t\t  |          |               |               |          |\n");
+    printf("\t\t\t  |          |    ");
+    co(6,&ETAT);
+    printf("|06|");
+    color(15, 0);
+    printf("======");
+    co(7,&ETAT);
+    printf("|07|");
+    color(15, 0);
+    printf("=====");
+    co(8,&ETAT);
+    printf("|08|");
+    color(15, 0);
+    printf("    |          |\n");
+    printf("\t\t\t  |          |     |                  |      |          |\n");
+    printf("\t\t\t  |          |     |                  |      |          |\n");
+    printf("\t\t\t  |          |     |                  |      |          |\n");
+    printf("\t\t\t ");
+    co(9,&ETAT);
+    printf("|09|");
+    color(15, 0);
+    printf("=======");
+    co(10,&ETAT);
+    printf("|10|");
+    color(15, 0);
+    printf("==");
+    co(11,&ETAT);
+    printf("|11|");
+    color(15, 0);
+    printf("               ");
+    co(12,&ETAT);
+    printf("|12|");
+    color(15, 0);
+    printf("==");
+    co(13,&ETAT);
+    printf("|13|");
+    color(15, 0);
+    printf("========");
+    co(14,&ETAT);
+    printf("|14|");
+    printf("\n");
+    color(15, 0);
+    printf("\t\t\t  |          |     |                  |      |          |\n");
+    printf("\t\t\t  |          |     |                  |      |          |\n");
+    printf("\t\t\t  |          |     |                  |      |          |\n");
+    color(15, 0);
+    printf("\t\t\t  |          |    ");
+    co(15,&ETAT);
+    printf("|15|");
+    color(15, 0);
+    printf("======");
+    co(16,&ETAT);
+    printf("|16|");
+    color(15, 0);
+    printf("=====");
+    co(17,&ETAT);
+    printf("|17|");
+    color(15, 0);
+    printf("    |          |\n");
+    printf("\t\t\t  |          |                |              |          |\n");
+    printf("\t\t\t  |          |                |              |          |\n");
+    printf("\t\t\t  |          |                |              |          |\n");
+    color(15, 0);
+    printf("\t\t\t  |         ");
+    co(18,&ETAT);
+    printf("|18|");
+    color(15, 0);
+    printf("============");
+    co(19,&ETAT);
+    printf("|19|");
+    color(15, 0);
+    printf("============");
+    co(20,&ETAT);
+    printf("|20|");
+    color(15, 0);
+    printf("        |\n");
+    printf("\t\t\t  |\t\t\t      |  \t\t        |\n");
+    printf("\t\t\t  |\t\t\t      |  \t\t        |\n");
+    printf("\t\t\t  |\t\t\t      |  \t\t        |\n");
+    printf("\t\t\t ");
+    co(21,&ETAT);
+    printf("|21|");
+    color(15, 0);
+    printf("=======================");
+    co(22,&ETAT);
+    printf("|22|");
+    color(15, 0);
+    printf("=======================");
+    co(23,&ETAT);
+    printf("|23|\n");
+    color(15, 0);
+
+}
+int entrer_utilisateur(int joueur,etat e){
+    int choicedd=Inialiser();
+    int choix=-1;
+
+    while(choix==-1||e.P[choix].joueur!=joueur){
+        afficher(etat e);
+
+            printf("entrer la case \n");
+            scanf("%d",choix);
+    }
+    return choix;
+}
+
+void afficher(etat e){
+
+
+
+
+        if(e.P[i].joueur == 1){
+                system("cls");
+            afficherGrille(e);
+
+        }
+
+        if(e.P[i].joueur == 2){
+              system("cls");
+            afficherGrille(e);
+        }
+    }
+    system("cls");
+
+}
+
+
+void beginmain(etat e){
+    etat em;
+    printf("Jeu de moulin \n");
+    int choice=Inialiser();
+
+    afficherGrille(etat e);
+
+
+    SDL_Rect destrect;
+    srcsurface=IMG_Load("src/images/minimax1.png");
+    destrect.x=250;destrect.y=100;destrect.h=100;destrect.w=300;
+    SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+    SDL_FreeSurface(srcsurface);
+
+    srcsurface=IMG_Load("src/images/alpha-beta1.png");
+    destrect.x=250;destrect.y=240;destrect.h=100;destrect.w=300;
+    SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+    SDL_FreeSurface(srcsurface);
+
+    srcsurface=IMG_Load("src/images/quitter1.png");
+    destrect.x=250;destrect.y=380;destrect.h=100;destrect.w=300;
+    SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+    SDL_UpdateWindowSurface(window);
+    SDL_FreeSurface(srcsurface);
+
+    bool fermer=false;
+    SDL_Event event;
+    while(!fermer){
+        while(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_MOUSEBUTTONDOWN:
+                    switch(event.button.button){
+                        case SDL_BUTTON_LEFT:
+                            if(event.button.x>250 && event.button.x<550 && event.button.y>100 && event.button.y<200){
+                                Mix_PlayChannel(-1, effect4, 0);
+                                srcsurface=IMG_Load("src/images/minimax2.png");
+                                destrect.x=250;destrect.y=100;destrect.h=200;destrect.w=300;
+                                SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+                                SDL_UpdateWindowSurface(window);
+                                SDL_FreeSurface(srcsurface);
+                                SDL_Delay(200);
+
+                                afficher(e);
+                                for(int i=0; i<9; i++){
+                                    int choix;
+                                    choix=entrer_utilisateur(0,e);
+                                    Mix_PlayChannel(-1,effect1,0);
+                                    e.P[choix].joueur=2;
+                                    printf("Vous avez choisi la position : %d\n",choix);
+                                    if(moulin_fnc(e.P,choix ,2)==0){
+                                        if(pion_libre(e.P)==0){
+                                            do{
+                                                choix=entrer_utilisateur(1,e);
+                                            }while(moulin_fnc(e.P,choix ,1)==0);
+                                            Mix_PlayChannel(-1,effect3,0);
+                                            printf("Vous avez capture le pion : %d\n",choix);
+                                            e.P[choix].joueur=0;
+                                            afficher(e);
+                                            e.pos1--;
+                                        }
+                                    }
+                                    Nbr_des_pions_poser++;
+                                    em=Minimax(e,3,Nbr_des_pions_poser,true);
+                                    Mix_PlayChannel(-1,effect1,0);
+                                    e.P[em.pos].joueur=1;
+                                    printf("La machine choisi la position : %d\n",em.pos);
+                                    afficher(e);
+                                    if(em.pC!=-1 ){
+                                        Mix_PlayChannel(-1,effect3,0);
+                                        e.P[em.pC].joueur=0;
+                                        printf("La machine a capture le pion : %d\n",em.pC);
+                                        afficher(e);
+                                        e.pos2--;
+                                    }
+                                    Nbr_des_pions_poser++;
+                                    printf("\n");
+                                }
+                                while(e.pos1>2 && e.pos2>2 && !pas_de_mouvement1(e) && !pas_de_mouvement2(e)){
+                                    int source=-1,destination=-1;
+                                    do{
+                                        source=entrer_utilisateur(2,e);
+                                        destination=entrer_utilisateur(0,e);
+                                    }while(!(Voisinages(source,destination,e,2)==0&&e.P[destination].joueur==0));
+                                    Mix_PlayChannel(-1,effect2,0);
+                                    e.P[source].joueur=0;
+                                    e.P[destination].joueur=2;
+                                    printf("Vous avez passez de %d a %d\n",source,destination);
+                                    afficher(e);
+                                    if(moulin_fnc(e.P,destination ,2)==0){
+                                        if(pion_libre(e.P)==0){
+                                            int  choix;
+                                            do{
+                                                choix=entrer_utilisateur(1,e);
+                                            }while(moulin_fnc(e.P,choix ,1)==0);
+                                            Mix_PlayChannel(-1,effect3,0);
+                                            e.P[choix].joueur=0;
+                                            printf("Vous avez capture le pion : %d\n",choix);
+                                            afficher(e);
+                                            e.pos1--;
+                                        }
+                                    }
+                                    Nbr_des_pions_poser++;
+                                    em=Minimax(e,3,Nbr_des_pions_poser,true);
+                                    Mix_PlayChannel(-1,effect1,0);
+                                    e.P[em.pos].joueur=1;
+                                    e.P[em.presd].joueur=0;
+                                    printf("La machine passe de %d a %d\n",em.presd,em.pos);
+                                    afficher(e);
+                                    if(em.pC!=-1 ){
+                                        Mix_PlayChannel(-1,effect3,0);
+                                        e.P[em.pC].joueur=0;
+                                        printf("La machine a capture le pion : %d\n",em.pC);
+                                        afficher(e);
+                                        e.pos2--;
+                                    }
+                                    Nbr_des_pions_poser++;
+                                    printf("\n");
+                                }
+
+                                SDL_UpdateWindowSurface(window);
+                                SDL_Delay(500);
+
+                                if(e.pos1==2 || pas_de_mouvement1(e)){
+                                    Mix_PlayChannel(-1,effect5,0);
+                                    srcsurface=IMG_Load("src/images/winner.jpg");
+                                    destrect.x=175;destrect.y=75;destrect.h=307;destrect.w=450;
+                                    SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+                                    SDL_UpdateWindowSurface(window);
+                                    SDL_FreeSurface(srcsurface);
+                                    SDL_Delay(2000);
+                                }
+                                else{
+                                     Mix_PlayChannel(-1,effect6,0);
+                                    srcsurface=IMG_Load("src/images/looser.jpg");
+                                    destrect.x=100;destrect.y=150;destrect.h=300;destrect.w=600;
+                                    SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+                                    SDL_UpdateWindowSurface(window);
+                                    SDL_FreeSurface(srcsurface);
+                                    SDL_Delay(2000);
+                                }
+                                fermer=true;
+                                break;
+                            }
+                            if(event.button.x>250 && event.button.x<550 && event.button.y>240 && event.button.y<340){
+                                Mix_PlayChannel(-1, effect4, 0);
+                                srcsurface=IMG_Load("src/images/alpha-beta2.png");
+                                destrect.x=250;destrect.y=240;destrect.h=400;destrect.w=300;
+                                SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+                                SDL_UpdateWindowSurface(window);
+                                SDL_FreeSurface(srcsurface);
+                                SDL_Delay(200);
+
+                                afficher(e);
+                                for(int i=0; i<9; i++){
+                                    int choix;
+                                    choix=entrer_utilisateur(0,e);
+                                    Mix_PlayChannel(-1,effect1,0);
+                                    e.P[choix].joueur=2;
+                                    printf("Vous avez choisi la position : %d\n",choix);
+                                    afficher(e);
+                                    if(moulin_fnc(e.P,choix ,2)==0){
+                                        if(pion_libre(e.P)==0){
+                                            do{
+                                                choix=entrer_utilisateur(1,e);
+                                            }while(moulin_fnc(e.P,choix ,1)==0);
+                                            Mix_PlayChannel(-1,effect3,0);
+                                            e.P[choix].joueur=0;
+                                            printf("Vous avez capture le pion : %d\n",choix);
+                                            afficher(e);
+                                            e.pos1--;
+                                        }
+                                    }
+                                    Nbr_des_pions_poser++;
+
+                                    em=AlphaBeta(e,3,Nbr_des_pions_poser,true,-999999,999999);
+                                    Mix_PlayChannel(-1,effect1,0);
+                                    e.P[em.pos].joueur=1;
+                                    printf("La machine choisi la position : %d\n",em.pos);
+                                    afficher(e);
+                                    if(em.pC!=-1 ){
+                                        Mix_PlayChannel(-1,effect3,0);
+                                        e.P[em.pC].joueur=0;
+                                        printf("La machine a capture le pion : %d\n",em.pC);
+                                        afficher(e);
+                                        e.pos2--;
+                                    }
+                                    Nbr_des_pions_poser++;
+                                }
+                                while(e.pos1>2 && e.pos2>2 && !pas_de_mouvement1(e) && !pas_de_mouvement2(e)){
+                                    int source=-1,destination=-1;
+                                    do{
+                                        source=entrer_utilisateur(2,e);
+                                        destination=entrer_utilisateur(0,e);
+                                    }while(!(Voisinages(source,destination,e,2)==0&&e.P[destination].joueur==0));
+                                    Mix_PlayChannel(-1,effect2,0);
+                                    e.P[source].joueur=0;
+                                    e.P[destination].joueur=2;
+                                    printf("Vous avez passez de %d a %d\n",source,destination);
+                                    afficher(e);
+                                    if(moulin_fnc(e.P,destination ,2)==0){
+                                        if(pion_libre(e.P)==0){
+                                            int  choix;
+                                            do{
+                                                choix=entrer_utilisateur(1,e);
+                                            }while(moulin_fnc(e.P,choix ,1)==0);
+                                            Mix_PlayChannel(-1,effect3,0);
+                                            e.P[choix].joueur=0;
+                                            printf("Vous avez capture le pion : %d\n",choix);
+                                            afficher(e);
+                                            e.pos1--;
+                                        }
+                                    }
+                                    Nbr_des_pions_poser++;
+                                    em=AlphaBeta(e,3,Nbr_des_pions_poser,true,-999999,999999);
+                                    Mix_PlayChannel(-1,effect1,0);
+                                    e.P[em.pos].joueur=1;
+                                    e.P[em.presd].joueur=0;
+                                    printf("La machine passe de %d a %d\n",em.presd,em.pos);
+                                    afficher(e);
+                                    if(em.pC!=-1 ){
+                                        Mix_PlayChannel(-1,effect3,0);
+                                        e.P[em.pC].joueur=0;
+                                        printf("La machine a capture le pion : %d\n",em.pC);
+                                        afficher(e);
+                                        e.pos2--;
+                                    }
+                                    Nbr_des_pions_poser++;
+                                }
+
+                                SDL_UpdateWindowSurface(window);
+                                SDL_Delay(500);
+
+                                if(e.pos1==2 || pas_de_mouvement1(e)){
+                                    Mix_PlayChannel(-1,effect5,0);
+                                    srcsurface=IMG_Load("src/images/winner.jpg");
+                                    destrect.x=175;destrect.y=75;destrect.h=307;destrect.w=450;
+                                    SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+                                    SDL_UpdateWindowSurface(window);
+                                    SDL_FreeSurface(srcsurface);
+                                    SDL_Delay(2000);
+                                }
+                                else{
+                                     Mix_PlayChannel(-1,effect6,0);
+                                    srcsurface=IMG_Load("src/images/looser.jpg");
+                                    destrect.x=100;destrect.y=150;destrect.h=300;destrect.w=600;
+                                    SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+                                    SDL_UpdateWindowSurface(window);
+                                    SDL_FreeSurface(srcsurface);
+                                    SDL_Delay(2000);
+                                }
+
+                                fermer=true;
+                                break;
+                            }
+                            if(event.button.x>250 && event.button.x<550 && event.button.y>380 && event.button.y<480){
+                                Mix_PlayChannel(-1, effect4, 0);
+                                srcsurface=IMG_Load("src/images/quitter2.png");
+                                destrect.x=250;destrect.y=380;destrect.h=100;destrect.w=300;
+                                SDL_BlitSurface(srcsurface,NULL,ecran,&destrect);
+                                SDL_UpdateWindowSurface(window);
+                                SDL_FreeSurface(srcsurface);
+                                SDL_Delay(200);
+                                fermer=true;
+                            }
+                            break;
+                    }
+                    break;
+                case SDL_QUIT:
+                    fermer=true;
+                    break;
+            }
+        }
+
+    }
+}
+
